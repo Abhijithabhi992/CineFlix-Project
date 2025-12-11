@@ -8,6 +8,10 @@ from . models import Movie,IndustryChoices,GenreChoices,ArtistChoices,LanguageCh
 
 from django.db.models import Q
 
+from django.utils.decorators import method_decorator
+
+from authentication.permissions import permitted_users_roles
+
 # Create your views here.
 
 class HomeView(View):
@@ -126,6 +130,7 @@ class MoviesListView(View):
 
 # ==============================================================FORM WAY===================================================================================
 
+@method_decorator(permitted_users_roles(['Admin']),name='dispatch')
 
 class MovieCreateView(View):
 
@@ -158,6 +163,7 @@ class MovieCreateView(View):
 
         return render(request,self.template,context=data)
     
+    
 class MovieDetailView(View):
 
     template = 'movies/movie-details.html'
@@ -171,6 +177,8 @@ class MovieDetailView(View):
         data = {'movie':movie,'page':movie.name}
         
         return render(request,self.template,context=data)
+    
+@method_decorator(permitted_users_roles(['Admin']),name='dispatch')
     
 class MovieEditView(View):
 
@@ -207,6 +215,8 @@ class MovieEditView(View):
         data = {'form':form,'page':movie.name}
 
         return render(request,self.template,context=data)
+    
+@method_decorator(permitted_users_roles(['Admin']),name='dispatch')
     
 class MovieDeleteView(View):
 

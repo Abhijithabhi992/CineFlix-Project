@@ -8,10 +8,16 @@
     <div class="hero-content">
         
       <h1 class="display-5 fw-bold d-inline-block me-3">{{movie.name}}</h1>
+      {% allowed_roles request '["Admin"]' as allow %}
+
+			{% if allow %}
       <a href="{% url 'movie-edit' movie.uuid %}"><i class="fa fa-solid fa-pen text-white mx-2"></i></a>
       <a href="{% url 'movie-delete' movie.uuid %}"><i class="fa-solid fa-trash text-white mx-2"></i></a>
+
+      {% endif %}
       <div class="d-flex align-items-center mb-2">
-        <span class="match me-3">{{movie.runtime | time:'H i'}}</span>
+        {% display_time movie.runtime as runtime %}
+        <span class="match me-3">{{runtime}}</span>
         <span class="me-3">{{movie.release_date | date:'Y'}}</span>
         <span class="badge bg-dark me-3 px-3 py-1">{{movie.certification}}</span>
         <span>{{movie.industry.name}}</span>
@@ -21,7 +27,7 @@
       </p>
 
       <div class="d-flex gap-2 mb-3"> 
-        <button class="btn bg-white text-dark rounded-pill" style="width: 150px;"><i class="fa-solid fa-play me-2"></i>Play</button>
+        <button class="btn bg-white text-dark rounded-pill" style="width: 150px;"><i class="fa-solid fa-play me-2"></i><a href="https://youtu.be/yjaFvFuQ-QM?si=9QVXSdyj4lFCMdAO">Play</a></button>
         <button class="btn bg-dark btn-outline-light rounded-pill" style="width: 150px;"><i class="fa-solid fa-plus me-2"></i>My List</button>
       </div>
 
